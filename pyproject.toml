@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dimples"
+description = "Distribute and manage your packages!"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+version = "0.1.0.dev0"
+
+keywords = [
+  "package",
+  "manager",
+  "package-manager",
+  "module",
+]
+
+authors = [
+  { name = "Joe(y) Carpinelli", email = "jdcarpinelli@gmail.com" },
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+dependencies = [
+  "rich", "typer", 
+  "pypi_simple", 
+]
+
+[project.urls]
+Documentation = "https://github.com/cadojo/dimples#readme"
+Issues = "https://github.com/cadojo/dimples/issues"
+Source = "https://github.com/cadojo/dimples"
+
+[tool.hatch.build]
+packages = ["src/dimples"]
+
+[tool.hatch.envs.default]
+dependencies = [
+  "mypy",
+  "black",
+  "pytest",
+  "pytest-cov",
+  "types-requests",
+]
+
+[tool.hatch.envs.default.scripts]
+coverage = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/dimples --cov=tests {args}"
+tests = "coverage --no-cov {args}"
+checks = "mypy . {args}"
+linter = "black ."
+
+[[tool.hatch.envs.test.matrix]]
+python = ["37", "38", "39", "310", "311"]
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
