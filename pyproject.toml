@@ -36,6 +36,7 @@ classifiers = [
 dependencies = [
   "rich", "typer", 
   "pypi_simple", 
+  "pypi_json",
 ]
 
 [project.urls]
@@ -67,3 +68,10 @@ python = ["37", "38", "39", "310", "311"]
 [tool.mypy]
 warn_return_any = true
 warn_unused_configs = true
+
+[tool.dimples.project]
+uuid = "68196114-08ac-4404-ace6-0eb9d571fa77"
+
+[tool.dimples.project.indices]
+rich = "https://pypi.org/simple/"
+

@@ -1,5 +1,5 @@
 """
-A commandline-interface for `crpm`.
+A commandline-interface for the dimples package manager.
 """
 
 from typing import Optional

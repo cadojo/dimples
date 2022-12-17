@@ -11,21 +11,21 @@ __export__ = {
 }
 
 from typing import Optional, NamedTuple, Tuple, Union
-from pypi_simple import PYPI_SIMPLE_ENDPOINT, DistributionPackage, ProjectPage
+from pypi_simple import PYPI_SIMPLE_ENDPOINT, DistributionPackage, ProjectPage, IndexPage
 from functools import cache
 from os.path import curdir
 
 
 @cache
 def metadata(
-    package: str,
+    package: Optional[str] = None,
     /,
     *,
     url: str = PYPI_SIMPLE_ENDPOINT,
     auth: Optional[Tuple[str, str]] = None,
     trusted: Union[str, bool, None] = None,
     certificate: Optional[str] = None,
-) -> ProjectPage:
+) -> Union[ProjectPage, IndexPage]:
     """
     Fetch metadata for the provided package.
     """
@@ -39,10 +39,16 @@ def metadata(
         session.auth = auth
 
         with PyPISimple(endpoint=url, session=session) as client:
-            data = client.get_project_page(package)
+            if package:
+                data = client.get_project_page(package)
+            else:
+                data = client.get_index_page()
     else:
         with PyPISimple(endpoint=url, auth=auth) as client:
-            data = client.get_project_page(package)
+            if package:
+                data = client.get_project_page(package)
+            else:
+                data = client.get_index_page()
 
     return data
 
@@ -78,9 +84,6 @@ def distribution(
     """
     Returns a `pypi_simple.DistributionPackage` instance for the specified package, and
     optionally a specific version. If no version is specified, the latest version is used.
-
-    The `to` keyword argument specifies the download location, and defaults to the current
-    directory. The `version` keyword argument specifiest the desired package version.
     """
     from packaging.version import parse, Version
 
@@ -114,7 +117,11 @@ def download(
     version: Optional[str] = None,
 ) -> None:
     """
-    Download the specified package.
+    Download the requested package, and optionally requested version.
+
+    The `to` keyword argument specifies the download location, and defaults to the current
+    directory. The `version` keyword argument specifies the desired package version. If no 
+    version is specified, the highest version number is used.
     """
     from pathlib import Path
     from requests import get

@@ -14,7 +14,7 @@ from typing import Protocol, Literal
 from .packages import PythonPackage
 from .registries import PythonRegistry
 
-__packages__: Literal["pyproject.toml"] = "pyproject.toml"
+__required__: Literal["pyproject.toml"] = "pyproject.toml"
 __manifest__: Literal["pyproject.lock"] = "pyproject.lock"
 
 
@@ -40,7 +40,7 @@ class PythonEnvironment(Protocol):
         Return all available registires added to this environment.
         """
 
-    def __packages__(self) -> set[PythonPackage]:
+    def __required__(self) -> set[PythonPackage]:
         """
         Return the set of explicitly installed Python packages.
         """

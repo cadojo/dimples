@@ -8,7 +8,7 @@ the public Python index, PyPi, could have mirrors all over the world without iss
 But the web has grown since PyPi was founded! No one uses mirrors; everyone installs public
 packages from PyPi, and some install private packages from privately hosted indexes.
 
-Modern langaages use registries. A package's name should be unique on a given _registry_, 
+Modern languages use registries. A package's name should be unique on a given _registry_, 
 but other packages with the name may exist on _other_ registries. A UUID is used to uniquely
 identify each package. This is cryptographically guaranteed.
 
@@ -25,7 +25,7 @@ Hey, that's only two things!
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = version("crpm")
+    __version__ = version("dimples")
 except PackageNotFoundError:
     __version__ = "unknown"
 
