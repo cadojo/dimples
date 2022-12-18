@@ -68,10 +68,11 @@ python = ["37", "38", "39", "310", "311"]
 [tool.mypy]
 warn_return_any = true
 warn_unused_configs = true
+check_untyped_defs = true
 
-[tool.dimples.project]
+[tool.registries.project]
 uuid = "68196114-08ac-4404-ace6-0eb9d571fa77"
 
-[tool.dimples.project.indices]
+[tool.registries.project.indices]
 rich = "https://pypi.org/simple/"
 

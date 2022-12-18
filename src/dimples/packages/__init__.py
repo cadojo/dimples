@@ -7,7 +7,7 @@ __export__ = {
 }
 
 from typing import Protocol, Optional
-from .registries import PythonRegistry
+from ..registries import PythonRegistry
 
 
 class PythonPackage(Protocol):

@@ -11,9 +11,15 @@ __export__ = {
 }
 
 from typing import Optional, NamedTuple, Tuple, Union
-from pypi_simple import PYPI_SIMPLE_ENDPOINT, DistributionPackage, ProjectPage, IndexPage
+from pypi_simple import (
+    PYPI_SIMPLE_ENDPOINT,
+    DistributionPackage,
+    ProjectPage,
+    IndexPage,
+)
 from functools import cache
 from os.path import curdir
+from dataclasses import dataclass, field
 
 
 @cache
@@ -120,7 +126,7 @@ def download(
     Download the requested package, and optionally requested version.
 
     The `to` keyword argument specifies the download location, and defaults to the current
-    directory. The `version` keyword argument specifies the desired package version. If no 
+    directory. The `version` keyword argument specifies the desired package version. If no
     version is specified, the highest version number is used.
     """
     from pathlib import Path
@@ -135,14 +141,23 @@ def download(
         file.write(response.content)
 
 
-class PyPIServer(NamedTuple):
+@dataclass
+class PyPIServer:
     """
     An implementation for all (simple API) PyPI package servers.
     """
 
-    url: str = PYPI_SIMPLE_ENDPOINT
-    authorization: Optional[Tuple[str, str]] = None
-    trusted: Optional[str] = None
+    __slots__ = (
+        "url",
+        "trusted",
+        "authorization",
+    )
+
+    url: str = field(default=PYPI_SIMPLE_ENDPOINT)
+    trusted: Optional[str] = field(default=None, kw_only=True, repr=False, hash=False)
+    authorization: Optional[Tuple[str, str]] = field(
+        default=None, kw_only=True, repr=False, hash=False
+    )
 
     def __distribution__(
         self, package: str, /, *, version: Optional[str] = None
@@ -162,7 +177,7 @@ class PyPIServer(NamedTuple):
         return versions(package, url=self.url, auth=self.authorization)
 
     def __download__(
-        self, package: str, /, *, location: str, version: Optional[str]
+        self, package: str, /, *, location: str = curdir, version: Optional[str] = None
     ) -> None:
         """
         Download the distribution for the specified package, and optionally specified

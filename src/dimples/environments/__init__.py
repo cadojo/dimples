@@ -11,8 +11,8 @@ __export__ = {
 }
 
 from typing import Protocol, Literal
-from .packages import PythonPackage
-from .registries import PythonRegistry
+from ..packages import PythonPackage
+from ..registries import PythonRegistry
 
 __required__: Literal["pyproject.toml"] = "pyproject.toml"
 __manifest__: Literal["pyproject.lock"] = "pyproject.lock"
