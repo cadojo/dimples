@@ -8,8 +8,6 @@ __export__ = {
     "manifest",
     "registries",
     "PythonEnvironment",
-    "REQUIRED_FILE",
-    "MANIFEST_FILE",
 }
 
 from typing import Protocol, Literal
@@ -24,7 +22,9 @@ class PythonEnvironment(Protocol):
 
     def __environment__(self) -> str:
         """
-        Returns the base path associated with the environment.
+        Returns the base path associated with the environment. There must be at least a
+        metadata file (pyproject.toml) at this path. A manifest file will be created at this
+        path, if the "dimples" package manager is used.
         """
 
     def __update__(self, *packages: str, cautious: bool = False) -> None:
@@ -39,7 +39,7 @@ class PythonEnvironment(Protocol):
         Return all available registires added to this environment.
         """
 
-    def __required__(self) -> set[PythonPackage]:
+    def __metadata__(self) -> set[PythonPackage]:
         """
         Return the set of explicitly installed Python packages.
         """
