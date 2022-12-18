@@ -31,6 +31,8 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Software Development :: Build Tools",
+  "Typing :: Typed",
 ]
 
 dependencies = [
@@ -46,6 +48,7 @@ Source = "https://github.com/cadojo/dimples"
 
 [tool.hatch.build]
 packages = ["src/dimples"]
+include = ["py.typed"]
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -70,9 +73,11 @@ warn_return_any = true
 warn_unused_configs = true
 check_untyped_defs = true
 
-[tool.registries.project]
+[tool.dimples.project]
 uuid = "68196114-08ac-4404-ace6-0eb9d571fa77"
+type = "package"
 
-[tool.registries.project.indices]
+[tool.dimples.project.indices]
 rich = "https://pypi.org/simple/"
+
 

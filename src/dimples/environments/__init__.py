@@ -8,14 +8,13 @@ __export__ = {
     "manifest",
     "registries",
     "PythonEnvironment",
+    "REQUIRED_FILE",
+    "MANIFEST_FILE",
 }
 
 from typing import Protocol, Literal
 from ..packages import PythonPackage
 from ..registries import PythonRegistry
-
-__required__: Literal["pyproject.toml"] = "pyproject.toml"
-__manifest__: Literal["pyproject.lock"] = "pyproject.lock"
 
 
 class PythonEnvironment(Protocol):

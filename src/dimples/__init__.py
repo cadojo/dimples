@@ -16,8 +16,8 @@ The odds are _way_ against this project, but I really think something like this 
 exist. Python package metadata can be pulled from PyPi servers pretty easily. The "only"
 thing we need for registries to exist within Python is for...
 
-  1. Package metadata to contain UUIDs
-  2. Package managers to store both both UUIDs, and _registry URLs_ for each installed package
+  1. ...package metadata to contain UUIDs, and...
+  2. ...package managers to store both either UUIDs --- or _registry URLs_ --- for each installed package.
   
 Hey, that's only two things!
 """
@@ -30,3 +30,10 @@ except PackageNotFoundError:
     __version__ = "unknown"
 
 del version, PackageNotFoundError
+
+from typing import Literal
+
+METADATA_FILE: Literal["pyproject.toml"] = "pyproject.toml"
+MANIFEST_FILE: Literal["pyproject.lock"] = "pyproject.lock"
+
+del Literal

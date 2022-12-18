@@ -3,6 +3,7 @@ A REST api for interacting with PyPi servers.
 """
 
 __export__ = {
+    "index",
     "metadata",
     "versions",
     "distribution",
@@ -23,15 +24,42 @@ from dataclasses import dataclass, field
 
 
 @cache
+def index(
+    url: str = PYPI_SIMPLE_ENDPOINT,
+    /,
+    *,
+    auth: Optional[Tuple[str, str]] = None,
+    trusted: Union[str, bool, None] = None,
+    certificate: Optional[str] = None,
+) -> IndexPage:
+    from requests import Session
+    from pypi_simple import PyPISimple
+
+    if trusted or certificate:
+        session = Session()
+        session.cert = certificate
+        session.verify = trusted
+        session.auth = auth
+
+        with PyPISimple(endpoint=url, session=session) as client:
+            data = client.get_index_page()
+    else:
+        with PyPISimple(endpoint=url, auth=auth) as client:
+            data = client.get_index_page()
+
+    return data
+
+
+@cache
 def metadata(
-    package: Optional[str] = None,
+    package: str,
     /,
     *,
     url: str = PYPI_SIMPLE_ENDPOINT,
     auth: Optional[Tuple[str, str]] = None,
     trusted: Union[str, bool, None] = None,
     certificate: Optional[str] = None,
-) -> Union[ProjectPage, IndexPage]:
+) -> ProjectPage:
     """
     Fetch metadata for the provided package.
     """
@@ -45,16 +73,10 @@ def metadata(
         session.auth = auth
 
         with PyPISimple(endpoint=url, session=session) as client:
-            if package:
-                data = client.get_project_page(package)
-            else:
-                data = client.get_index_page()
+            data = client.get_project_page(package)
     else:
         with PyPISimple(endpoint=url, auth=auth) as client:
-            if package:
-                data = client.get_project_page(package)
-            else:
-                data = client.get_index_page()
+            data = client.get_project_page(package)
 
     return data
 
