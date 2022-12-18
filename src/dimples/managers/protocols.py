@@ -1,6 +1,7 @@
 """
-Interfaces and implementations for a user-facing package manager.
+Abstract interfaces for all Python package managers.
 """
+
 
 __export__ = {
     "PackageManager",
@@ -8,19 +9,14 @@ __export__ = {
 
 from packaging.version import Version
 from typing import Protocol, Optional, Mapping
-from ..packages import PythonPackage
-from ..environments import PythonEnvironment
+from ..packages.protocols import PythonPackage
+from ..environments.protocols import PythonEnvironment
 
 
 class PackageManager(Protocol):
     """
     An abstract interface for all user-facing Python package managers.
     """
-
-    def __active__(self) -> PythonEnvironment:
-        """
-        Return the currently active python environment.
-        """
 
     def __install__(
         self,
@@ -48,9 +44,9 @@ class PackageManager(Protocol):
 
     def __active__(
         self,
-    ) -> str:
+    ) -> PythonEnvironment:
         """
-        Return the name of the currently active environment.
+        Return the currently active environment.
         """
 
     def __status__(

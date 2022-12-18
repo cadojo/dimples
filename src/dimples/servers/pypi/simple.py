@@ -1,5 +1,5 @@
 """
-A REST api for interacting with PyPi servers.
+Wrappers around the pypi-simple package for interacting with PyPI's Simple API.
 """
 
 __export__ = {
@@ -8,22 +8,18 @@ __export__ = {
     "versions",
     "distribution",
     "download",
-    "PyPIServer",
 }
 
-from typing import Optional, NamedTuple, Tuple, Union
+from os.path import curdir
+from typing import Optional, Tuple, Union
 from pypi_simple import (
     PYPI_SIMPLE_ENDPOINT,
     DistributionPackage,
     ProjectPage,
     IndexPage,
 )
-from functools import cache
-from os.path import curdir
-from dataclasses import dataclass, field
 
 
-@cache
 def index(
     url: str = PYPI_SIMPLE_ENDPOINT,
     /,
@@ -50,7 +46,6 @@ def index(
     return data
 
 
-@cache
 def metadata(
     package: str,
     /,
@@ -81,7 +76,6 @@ def metadata(
     return data
 
 
-@cache
 def versions(
     package: str,
     /,
@@ -100,7 +94,6 @@ def versions(
     }
 
 
-@cache
 def distribution(
     package: str,
     /,
@@ -161,58 +154,6 @@ def download(
 
     with open(_location, "wb") as file:
         file.write(response.content)
-
-
-@dataclass
-class PyPIServer:
-    """
-    An implementation for all (simple API) PyPI package servers.
-    """
-
-    __slots__ = (
-        "url",
-        "trusted",
-        "authorization",
-    )
-
-    url: str = field(default=PYPI_SIMPLE_ENDPOINT)
-    trusted: Optional[str] = field(default=None, kw_only=True, repr=False, hash=False)
-    authorization: Optional[Tuple[str, str]] = field(
-        default=None, kw_only=True, repr=False, hash=False
-    )
-
-    def __distribution__(
-        self, package: str, /, *, version: Optional[str] = None
-    ) -> str:
-        """
-        Returns the URL associated with the requested package distribution.
-        """
-        dist = distribution(
-            package, version=version, url=self.url, auth=self.authorization
-        )
-        return dist.url
-
-    def __versions__(self, package: str) -> set[str]:
-        """
-        Return the set of all versions for the provided package.
-        """
-        return versions(package, url=self.url, auth=self.authorization)
-
-    def __download__(
-        self, package: str, /, *, location: str = curdir, version: Optional[str] = None
-    ) -> None:
-        """
-        Download the distribution for the specified package, and optionally specified
-        version, to some location. If no version is provided, the largest version number
-        found on the server should be used.
-        """
-        return download(
-            package,
-            version=version,
-            location=location,
-            url=self.url,
-            auth=self.authorization,
-        )
 
 
 if __name__ == "__main__":

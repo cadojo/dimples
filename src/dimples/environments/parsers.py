@@ -15,10 +15,11 @@ def parse_metadata(path: str, /, validate: bool = True) -> dict:
     """
     from pathlib import Path
     from warnings import warn
-    from tomllib import load
+    from .toml import load
     from .. import METADATA_FILE
 
-    metadata = load(path)
+    with open(path, "rb") as file:
+        metadata = load(file)
 
     if validate:
         if not path.endswith(METADATA_FILE):
@@ -40,17 +41,16 @@ def parse_manifest(path: str, /, validate: bool = True) -> dict:
     Load the provided pyproject.lock file as a dictionary. If validate is set to True,
     fields relevant to "dimples" will be checked; if the fields are not valid, a ValueError
     is raised.
-
-    A manifest file should have
     """
     from warnings import warn
-    from tomllib import load
+    from .toml import load
     from .. import MANIFEST_FILE
 
-    manifest = load(path)
+    with open(path, "rb") as file:
+        manifest = load(file)
 
     if validate:
-        if not path.endswith():
+        if not path.endswith(MANIFEST_FILE):
             warn(f"The provided manifest file is not named {MANIFEST_FILE}!")
 
         try:

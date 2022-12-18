@@ -38,6 +38,7 @@ classifiers = [
 dependencies = [
   "rich", "typer", 
   "pypi_simple", 
+  "tomli; python_version<'3.11'",
   "pypi_json",
 ]
 
