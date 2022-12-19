@@ -9,5 +9,5 @@ def test_import():
     import dimples.registries.protocols
     import dimples.packages.protocols
     import dimples.environments.protocols
-    import dimples.environments.parsers
+    import dimples.environments.formats.validate
     import dimples.environments.sites
