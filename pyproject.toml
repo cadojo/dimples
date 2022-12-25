@@ -38,7 +38,7 @@ classifiers = [
 dependencies = [
   "rich", "typer", 
   "pypi_simple", 
-  "tomli; python_version<'3.11'",
+  "tomli; python_version<'3.10'",
   "pypi_json",
 ]
 
@@ -46,6 +46,9 @@ dependencies = [
 Documentation = "https://github.com/cadojo/dimples#readme"
 Issues = "https://github.com/cadojo/dimples/issues"
 Source = "https://github.com/cadojo/dimples"
+
+[project.scripts]
+dmp = "dimples.__main__:cli"
 
 [tool.hatch.build]
 packages = ["src/dimples"]
@@ -77,6 +80,7 @@ check_untyped_defs = true
 [tool.dimples.project]
 uuid = "68196114-08ac-4404-ace6-0eb9d571fa77"
 type = "package"
+strict = false
 
 [tool.dimples.project.indices]
 rich = "https://pypi.org/simple/"

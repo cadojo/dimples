@@ -8,10 +8,10 @@ __export__ = {
 }
 
 
-from typing import Any
+from typing import Any, Dict
 
 
-def metadata(data: dict[str, Any], /) -> bool:
+def metadata(data: Dict[str, Any], /) -> bool:
     """
     Load the provided pyproject.toml file as a dictionary. If validate is set to True,
     fields relevant to "dimples" will be checked; if the fields are not valid, a ValueError
@@ -29,7 +29,7 @@ def metadata(data: dict[str, Any], /) -> bool:
     return True
 
 
-def manifest(data: dict[str, Any], /) -> bool:
+def manifest(data: Dict[str, Any], /) -> bool:
     """
     Load the provided pyproject.toml file as a dictionary. If validate is set to True,
     fields relevant to "dimples" will be checked; if the fields are not valid, a ValueError
@@ -37,14 +37,17 @@ def manifest(data: dict[str, Any], /) -> bool:
     """
 
     try:
-        manifest["python"]["version"]
-        manifest["manifest"]["version"]
-        manifest["dependencies"]
+        data["metadata"]
+        data["metadata"]["python"]
+        data["metadata"]["version"]
+        data["manifest"]
+        data["manifest"]["dependencies"]
 
-        for dependency in manifest["dependencies"]:
+        for dependency in data["manifest"]["dependencies"]:
             dependency["version"]
             dependency["index"]
             dependency["hash"]
+            dependency["dependencies"]
 
     except KeyError:
         return False

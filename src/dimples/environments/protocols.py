@@ -6,7 +6,7 @@ __export__ = {
     "PythonEnvironment",
 }
 
-from typing import Protocol
+from typing import Protocol, Dict, Set
 from ..packages.protocols import PythonPackage
 from ..registries.protocols import PythonRegistry
 
@@ -30,17 +30,17 @@ class PythonEnvironment(Protocol):
         update-ability.
         """
 
-    def __registries__(self) -> set[PythonRegistry]:
+    def __registries__(self) -> Set[PythonRegistry]:
         """
         Return all available registries added to this environment.
         """
 
-    def __metadata__(self) -> set[PythonPackage]:
+    def __metadata__(self) -> Set[PythonPackage]:
         """
         Return the set of explicitly installed Python packages.
         """
 
-    def __manifest__(self) -> set[PythonPackage]:
+    def __manifest__(self) -> Dict[PythonPackage, Set[PythonPackage]]:
         """
         Return the set of all installed Python packages (explicitly, or implicitly).
         """
