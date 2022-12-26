@@ -30,6 +30,12 @@ class PythonPackage(Protocol):
         Returns the URL associated with the registry from which the package was installed.
         """
 
+    def __version__(self) -> str:
+        """
+        Returns the version specifier for this package.
+        """
+
+
 
 if __name__ != "__main__":
     import hygiene  # type: ignore

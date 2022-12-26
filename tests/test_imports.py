@@ -15,7 +15,10 @@ def test_import():
     import dimples.packages.protocols
 
     import dimples.environments.protocols
-    import dimples.environments.formats.validate
+    import dimples.environments.validate
     import dimples.environments.sites
+
+    import dimples.environments.metadata.protocols
+    import dimples.environments.manifests.protocols
 
     import dimples.managers.protocols

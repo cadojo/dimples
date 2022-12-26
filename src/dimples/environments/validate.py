@@ -40,14 +40,13 @@ def manifest(data: Dict[str, Any], /) -> bool:
         data["metadata"]
         data["metadata"]["python"]
         data["metadata"]["version"]
-        data["manifest"]
-        data["manifest"]["dependencies"]
+        data["dependencies"]
 
-        for dependency in data["manifest"]["dependencies"]:
+        for dependency in data["dependencies"]:
             dependency["version"]
             dependency["index"]
             dependency["hash"]
-            dependency["dependencies"]
+            dependency["by"]
 
     except KeyError:
         return False
