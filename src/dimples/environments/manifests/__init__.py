@@ -5,6 +5,7 @@ Interfaces and implementations for environment manifests.
 
 import dataclasses, typing
 from ...packages import Package
+from ...packages.protocols import PythonPackage
 
 
 @dataclasses.dataclass
@@ -29,7 +30,7 @@ class Manifest:
         """
         Load the provided metadata file.
         """
-        from ..toml import load
+        from ...toml import load
 
         with open(file, "rb") as stream:
             self.data = load(stream)
@@ -51,7 +52,7 @@ class Manifest:
         return self.data["metadata"]
 
     @property
-    def dependencies(self):
+    def dependencies(self) -> typing.Dict[PythonPackage, typing.Set[PythonPackage]]:
         """
         Return the contents of the [dependencies] key, if it exists.
         Otherwise, return an empty set.
@@ -59,7 +60,9 @@ class Manifest:
         from ...packages import Package
 
         return {
-            Package.from_dict(dependency)
+            Package.from_dict(dependency): {
+                Package.from_dict(subdependency) for subdependency in dependency["by"]
+            }
             for dependency in self.data.get("dependencies", set())
         }
 
@@ -69,12 +72,34 @@ class Manifest:
         """
         Resolve the environment into a replicable build.
         """
+        from typing import cast
+        from ..metadata.protocols import MetadataDict
+
         return {
             Package.from_dict(dependency): {
-                Package.from_dict(by) for by in dependency.get("by", set())
+                Package.from_dict(cast(MetadataDict, by))
+                for by in dependency.get("by", set())
             }
-            for dependency in self.dependencies
+            for dependency in self.data["dependencies"]
         }
+
+    def __file__(self) -> typing.Optional[str]:
+        """
+        Return the manifest file, if one exists. Otherwise, return None.
+        """
+        return self.file
+
+    def __metadata__(self) -> typing.Dict[str, str]:
+        """
+        Parse the manifest file for the manifest metadata, and return the resulting dictionary.
+        """
+        return self.metadata
+
+    def __dependencies__(self) -> typing.Dict[PythonPackage, typing.Set[PythonPackage]]:
+        """
+        Parse the manifest file for the manifest data, and return the resulting dictionary.
+        """
+        return self.dependencies
 
 
 del dataclasses, typing

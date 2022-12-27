@@ -5,7 +5,6 @@ Interact with Python environments.
 import dataclasses, typing
 from .manifests.protocols import ProjectManifest
 from .metadata.protocols import ProjectMetadata
-from ..packages.protocols import PythonPackage
 from ..registries.protocols import PythonRegistry
 
 from .metadata import Metadata
@@ -47,11 +46,6 @@ class Environment:
         update-ability.
         """
         raise NotImplementedError()
-
-    def __registries__(self) -> typing.Set[PythonRegistry]:
-        """
-        Return all available registries added to this environment.
-        """
 
     def __metadata__(self) -> ProjectMetadata:
         """

@@ -7,7 +7,7 @@ __export__ = {
     "PythonRegistry",
 }
 
-from typing import Protocol
+from typing import Protocol, Optional
 
 
 class PythonRegistry(Protocol):
@@ -20,14 +20,19 @@ class PythonRegistry(Protocol):
         Return the alias of the registry.
         """
 
-    def __registry__(self) -> str:
+    def __url__(self) -> str:
         """
         Return the URL of the registry.
         """
 
-    def __public__(self) -> bool:
+    def __private__(self) -> bool:
         """
-        Returns True if the registry is publicly accessible.
+        Returns False if the registry is publicly accessible.
+        """
+
+    def __uuid__(self) -> Optional[str]:
+        """
+        Return the UUID associated with the registry, if one exists. Otherwise, return None.
         """
 
     def __update__(self) -> None:

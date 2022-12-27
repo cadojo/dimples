@@ -13,7 +13,8 @@ class Registry:
 
     url: str = dataclasses.field()
     alias: str = dataclasses.field()
-    public: bool = dataclasses.field()
+    private: bool = dataclasses.field(default=False)
+    uuid: typing.Optional[str] = dataclasses.field(default=None)
 
     def __alias__(self) -> str:
         """
@@ -21,17 +22,23 @@ class Registry:
         """
         return self.alias
 
-    def __registry__(self) -> str:
+    def __url__(self) -> str:
         """
         Return the URL of the registry.
         """
         return self.url
 
-    def __public__(self) -> bool:
+    def __private__(self) -> bool:
         """
-        Returns True if the registry is publicly accessible.
+        Returns False if the registry is publicly accessible.
         """
-        return self.public
+        return self.private
+
+    def __uuid__(self) -> typing.Optional[str]:
+        """
+        Return the UUID associated with the registry, if one exists. Otherwise, return None.
+        """
+        return self.uuid
 
     def __update__(self) -> None:
         """

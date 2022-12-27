@@ -31,9 +31,12 @@ except PackageNotFoundError:
 
 del version, PackageNotFoundError
 
-from typing import Literal
+import typing
 
-METADATA_FILE: Literal["pyproject.toml"] = "pyproject.toml"
-MANIFEST_FILE: Literal["pyproject.lock"] = "pyproject.lock"
 
-del Literal
+METADATA_FILE: typing.Literal["pyproject.toml"] = "pyproject.toml"
+MANIFEST_FILE: typing.Literal["pyproject.lock"] = "pyproject.lock"
+REGISTRY_FILE: typing.Literal["registries.toml"] = "registries.toml"
+GLOBAL_CONFIG: typing.Literal["~/.python"] = "~/.python"
+
+del typing

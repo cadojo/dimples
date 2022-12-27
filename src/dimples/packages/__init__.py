@@ -6,6 +6,27 @@ import dataclasses, typing
 from ..registries.protocols import PythonRegistry
 
 
+class RegistryField(typing.TypedDict):
+    """
+    A type alias which provides types for each individual registry field.
+    """
+
+    alias: str
+    url: str
+    uuid: str
+
+
+class MetadataDict(typing.TypedDict):
+    """
+    A type alias which provides types for each individual metadata value.
+    """
+
+    name: str
+    version: str
+    registry: RegistryField
+    uuid: typing.Optional[str]
+
+
 @dataclasses.dataclass(frozen=True)
 class Package:
     """
@@ -42,22 +63,22 @@ class Package:
         return self.uuid
 
     @classmethod
-    def from_dict(
-        cls, dependency: typing.Dict[str, typing.Union[str, typing.Dict[str, str]]]
-    ):
+    def from_dict(cls, dependency: MetadataDict):
         """
         Construct a Package from a dictionary.
         """
-        from ..registries import Registry
+        from ..configuration import registry
+        from typing import Optional
 
         name: str = dependency["name"]
         version: str = dependency["version"]
-        registry = Registry(**dependency["registry"])
-        uuid = dependency.get("uuid", None)
+        uuid = dependency["uuid"]
         if uuid == "":
             uuid = None
 
-        return cls(name=name, version=version, registry=registry, uuid=uuid)
+        reg = registry(**dependency.get("registry", {}))
+
+        return cls(name=name, version=version, registry=reg, uuid=uuid)
 
 
 del dataclasses, typing, PythonRegistry

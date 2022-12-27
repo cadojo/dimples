@@ -10,6 +10,7 @@ manifest files (pyproject.lock).
 import typing, dataclasses
 from ...packages import Package
 from ...projects import ProjectType
+from .protocols import ProjectDict, ToolDict, MetadataDict
 
 
 @dataclasses.dataclass
@@ -20,7 +21,7 @@ class Metadata:
     """
 
     @classmethod
-    def isvalid(cls, data: dict[str, typing.Any]) -> bool:
+    def isvalid(cls, data: MetadataDict) -> bool:
         """
         Returns True if the underlying data matches the file type's specification.
         """
@@ -29,17 +30,19 @@ class Metadata:
         return validate.metadata(data)
 
     file: str = dataclasses.field(hash=True)
-    data: dict[str, typing.Any] = dataclasses.field(hash=False)
+    data: MetadataDict = dataclasses.field(hash=False)
 
     def __init__(self, file: str, /):
         """
         Load the provided metadata file.
         """
-        from ..toml import load
+        from ...toml import load
+        from typing import cast, Type
 
         with open(file, "rb") as stream:
-            self.data = load(stream)
+            data = load(stream)
 
+        self.data: MetadataDict = cast(MetadataDict, data)
         self.file = file
 
     def __post_init__(self):
@@ -50,29 +53,30 @@ class Metadata:
             raise ValueError(f"The data provided by {self.file} is invalid!")
 
     @property
-    def project(self):
+    def project(self) -> ProjectDict:
         """
         Return the contents of the [project] key.
         """
         return self.data["project"]
 
     @property
-    def dependencies(self):
+    def dependencies(self) -> typing.Set[str]:
         """
         Return the contents of the [project.dependencies] key.
         """
         return {dependency for dependency in self.project["dependencies"]}
 
     @property
-    def extras(self):
+    def extras(self) -> typing.Dict[str, typing.Set[str]]:
         """
         Return the contents of the [project.optional-dependencies] key, if it exists.
         Otherwise, return an empty dictionary.
         """
-        return {
-            extra: dependencies
-            for (extra, dependencies) in self.project.get("optional-dependencies", {})
-        }
+        from typing import Dict, Set, cast
+
+        deps = cast(Dict[str, Set[str]], self.project.get("optional-dependencies", {}))
+
+        return {extra: {*dependencies} for (extra, dependencies) in deps.items()}
 
     def __file__(self) -> typing.Optional[str]:
         """
@@ -80,7 +84,7 @@ class Metadata:
         """
         return self.file
 
-    def __project__(self) -> typing.Dict[str, str]:
+    def __project__(self) -> ProjectDict:
         """
         Parse the manifest file for the project metadata, and return the resulting dictionary.
         Project "type" and "uuid", which are held under [tool.dimples], should also be available
@@ -93,15 +97,16 @@ class Metadata:
         Return the type of the project defined by the metadata file.
         """
         from ...projects import ProjectType
+        from typing import cast
 
-        return ProjectType.from_str(self.data["tool"]["dimples"]["type"])
+        return ProjectType.from_str(self.data["tool"]["dimples"]["project"]["type"])
 
     def __uuid__(self) -> typing.Optional[str]:
         """
         Return the UUID of the project, if one exists. Otherwise, return None.
         """
         try:
-            uuid = self.data["tool"]["dimples"]["uuid"]
+            uuid = self.data["tool"]["dimples"]["project"]["uuid"]
         except KeyError:
             uuid = None
 
@@ -111,11 +116,14 @@ class Metadata:
         """
         Return the version for the project.
         """
+        from typing import List, cast
+
         try:
             return self.project["version"]
         except KeyError:
+            project = self.project
             try:
-                if "version" in self.project["dynamic"]:
+                if "version" in cast(List[str], project["dynamic"]):
                     raise NotImplementedError()
                 else:
                     raise ValueError("Invalid metadata state!")
@@ -123,4 +131,4 @@ class Metadata:
                 raise ValueError("Invalid metadata state!")
 
 
-del dataclasses, typing, Package
+del dataclasses, typing, Package, ProjectType, ProjectDict, ToolDict

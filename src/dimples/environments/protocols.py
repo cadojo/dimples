@@ -30,11 +30,6 @@ class PythonEnvironment(Protocol):
         update-ability.
         """
 
-    def __registries__(self) -> Set[PythonRegistry]:
-        """
-        Return all available registries added to this environment.
-        """
-
     def __metadata__(self) -> Set[PythonPackage]:
         """
         Return the set of explicitly installed Python packages.

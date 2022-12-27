@@ -9,9 +9,10 @@ __export__ = {
 
 
 from typing import Any, Dict
+from .metadata.protocols import MetadataDict
 
 
-def metadata(data: Dict[str, Any], /) -> bool:
+def metadata(data: MetadataDict, /) -> bool:
     """
     Load the provided pyproject.toml file as a dictionary. If validate is set to True,
     fields relevant to "dimples" will be checked; if the fields are not valid, a ValueError
