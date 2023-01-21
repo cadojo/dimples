@@ -3,7 +3,7 @@ Functions for finding install-locations.
 """
 
 
-def usersite():
+def user():
     """
     Returns the directory where packages are installed for the active user.
     """
@@ -12,7 +12,7 @@ def usersite():
     return site.getusersitepackages()
 
 
-def envsite():
+def environment():
     """
     Returns the directory where packages are installed for the active environment.
 

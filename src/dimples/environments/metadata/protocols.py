@@ -7,6 +7,7 @@ __export__ = {
     "ToolDimplesDict",
     "ToolDimplesProjectDict",
     "ProjectDict",
+    "MetadataDict",
     "ProjectMetadata",
 }
 

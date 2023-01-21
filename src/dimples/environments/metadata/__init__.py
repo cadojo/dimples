@@ -37,13 +37,16 @@ class Metadata:
         Load the provided metadata file.
         """
         from ...toml import load
-        from typing import cast, Type
+        from typing import cast
+        from pathlib import Path
 
-        with open(file, "rb") as stream:
+        path = str(Path(file).expanduser().resolve())
+
+        with open(path, "rb") as stream:
             data = load(stream)
 
         self.data: MetadataDict = cast(MetadataDict, data)
-        self.file = file
+        self.file = path
 
     def __post_init__(self):
         """
@@ -96,10 +99,15 @@ class Metadata:
         """
         Return the type of the project defined by the metadata file.
         """
-        from ...projects import ProjectType
         from typing import cast
+        from ...projects import ProjectType
+        from .protocols import ToolDimplesProjectDict
 
-        return ProjectType.from_str(self.data["tool"]["dimples"]["project"]["type"])
+        return ProjectType.from_str(
+            cast(ToolDimplesProjectDict, self.data)["tool"]["dimples"]["project"][
+                "type"
+            ]
+        )
 
     def __uuid__(self) -> typing.Optional[str]:
         """
@@ -129,6 +137,12 @@ class Metadata:
                     raise ValueError("Invalid metadata state!")
             except KeyError:
                 raise ValueError("Invalid metadata state!")
+
+    def __repr__(self):
+        """
+        Return a string representation of the Metadata instance.
+        """
+        return f"Metadata contents at {self.file}"
 
 
 del dataclasses, typing, Package, ProjectType, ProjectDict, ToolDict
