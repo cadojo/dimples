@@ -56,6 +56,6 @@ def manifest(data: Dict[str, Any], /) -> bool:
 
 
 if __name__ != "__main__":
-    import hygiene  # type: ignore
+    import hygiene
 
     hygiene.cleanup()

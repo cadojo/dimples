@@ -2,7 +2,7 @@
 Abstract interfaces for all Python packages.
 """
 
-from __future__ import annotations as __annotations__
+from __future__ import annotations as __annotations
 
 __export__ = {
     "PythonPackage",
@@ -40,6 +40,6 @@ class PythonPackage(Protocol):
 
 
 if __name__ != "__main__":
-    import hygiene  # type: ignore
+    import hygiene
 
     hygiene.cleanup()

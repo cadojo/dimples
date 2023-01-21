@@ -38,9 +38,10 @@ classifiers = [
 dependencies = [
   "rich", "typer", 
   "pypi_simple", 
-  "tomli; python_version<'3.10'",
+  "tomli; python_version<'3.11'",
   "pypi_json",
-  "module-hygiene",
+  "module-hygiene>=0.3.3",
+  "block-scopes>=0.2.2",
 ]
 
 [project.urls]

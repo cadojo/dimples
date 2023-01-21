@@ -58,6 +58,6 @@ class PackageServer(Protocol):
 
 
 if __name__ != "__main__":
-    import hygiene  # type: ignore
+    import hygiene
 
     hygiene.cleanup()

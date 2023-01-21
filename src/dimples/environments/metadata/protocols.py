@@ -22,7 +22,6 @@ class ToolDimplesProjectDict(TypedDict):
     metadata file.
     """
 
-    uuid: str
     type: str
 
 
@@ -96,6 +95,6 @@ class ProjectMetadata(Protocol):
 
 
 if __name__ != "__main__":
-    import hygiene  # type: ignore
+    import hygiene
 
     hygiene.cleanup()

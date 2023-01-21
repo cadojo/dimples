@@ -103,22 +103,8 @@ class Metadata:
         from ...projects import ProjectType
         from .protocols import ToolDimplesProjectDict
 
-        return ProjectType.from_str(
-            cast(ToolDimplesProjectDict, self.data)["tool"]["dimples"]["project"][
-                "type"
-            ]
-        )
-
-    def __uuid__(self) -> typing.Optional[str]:
-        """
-        Return the UUID of the project, if one exists. Otherwise, return None.
-        """
-        try:
-            uuid = self.data["tool"]["dimples"]["project"]["uuid"]
-        except KeyError:
-            uuid = None
-
-        return uuid if uuid else None
+        data = cast(ToolDimplesProjectDict, self.data["tool"]["dimples"]["project"])
+        return ProjectType.from_str(cast(str, data["type"]))
 
     def __version__(self) -> str:
         """

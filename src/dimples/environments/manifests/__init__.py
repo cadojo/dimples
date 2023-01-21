@@ -57,7 +57,7 @@ class Manifest:
         Return the contents of the [dependencies] key, if it exists.
         Otherwise, return an empty set.
         """
-        from ...packages import Package
+        from ...packages.concrete import Package
 
         return {
             Package.from_dict(dependency): {

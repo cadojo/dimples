@@ -23,7 +23,7 @@ class Environment:
 
     def __init__(self, path: str, /):
         from os.path import join
-        from .. import METADATA_FILE, MANIFEST_FILE
+        from ..constants import METADATA_FILE, MANIFEST_FILE
         from .metadata import Metadata
         from .manifests import Manifest
 
