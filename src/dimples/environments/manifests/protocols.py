@@ -7,7 +7,7 @@ __export__ = {
 }
 
 from typing import Protocol, Dict, Optional, Set
-from ...packages.protocols import PythonPackage
+from ...packages.abstract import PythonPackage
 
 
 class ProjectManifest(Protocol):

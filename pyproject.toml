@@ -67,8 +67,8 @@ dependencies = [
 [tool.hatch.envs.default.scripts]
 coverage = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/dimples --cov=tests {args}"
 tests = "coverage --no-cov {args}"
-checks = "mypy . {args}"
-linter = "black ."
+typing = "mypy . {args}"
+format = "black ."
 
 [[tool.hatch.envs.test.matrix]]
 python = ["37", "38", "39", "310", "311"]
@@ -79,11 +79,10 @@ warn_unused_configs = true
 check_untyped_defs = true
 
 [tool.dimples.project]
-uuid = "68196114-08ac-4404-ace6-0eb9d571fa77"
 type = "package"
 strict = false
 
-[tool.dimples.project.indices]
+[tool.dimples.project.registries]
 rich = "https://pypi.org/simple/"
 
 

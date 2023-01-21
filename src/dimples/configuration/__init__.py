@@ -3,7 +3,7 @@ Global configuration options, and interfaces for parsing them.
 """
 
 import dataclasses, typing
-from ..registries.protocols import PythonRegistry
+from ..registries.abstract import PythonRegistry
 
 
 def registries() -> typing.Set[PythonRegistry]:
@@ -12,32 +12,23 @@ def registries() -> typing.Set[PythonRegistry]:
     """
     from .. import GLOBAL_CONFIG, REGISTRY_FILE
     from ..toml import load
-    from ..registries import Registry
+    from ..registries.concrete import Registry
     from pathlib import Path
-    from typing import Set
-    from ..registries.protocols import PythonRegistry
 
     with open(str(Path(GLOBAL_CONFIG) / REGISTRY_FILE), "rb") as stream:
         data = load(stream)
 
-    registries: Set[PythonRegistry] = {
-        Registry(**reg) for reg in data.get("registries", set())
-    }
-
-    return registries
+    return {Registry(**registry) for registry in data.get("registries", set())}
 
 
-def registry(*, alias: str = "", url: str = "", uuid: str = "") -> PythonRegistry:
+def registry(*, alias: str = "", index: str = "") -> PythonRegistry:
     """
     Given a registry UUID, URL, or alias (in that order or preference), return the
     associated configured registry. Otherwise, raise a ValueError.
     """
-    if uuid:
-        key = uuid
-        type = "uuid"
-    elif url:
-        key = url
-        type = "url"
+    if index:
+        key = index
+        type = "index"
     elif alias:
         key = alias
         type = "alias"
@@ -47,9 +38,7 @@ def registry(*, alias: str = "", url: str = "", uuid: str = "") -> PythonRegistr
         )
 
     for registry in registries():
-        if uuid and uuid == registry.__uuid__():
-            return registry
-        elif url and url == registry.__url__():
+        if index and index == registry.__index__():
             return registry
         elif alias and alias == registry.__alias__():
             return registry

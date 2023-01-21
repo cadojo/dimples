@@ -7,8 +7,8 @@ __export__ = {
 }
 
 from typing import Protocol, Dict, Set
-from ..packages.protocols import PythonPackage
-from ..registries.protocols import PythonRegistry
+from ..packages.abstract import PythonPackage
+from ..registries.abstract import PythonRegistry
 
 
 class PythonEnvironment(Protocol):

@@ -7,7 +7,7 @@ __export__ = {
 }
 
 from typing import Protocol, Set
-from ..registries.protocols import PythonRegistry
+from ..registries.abstract import PythonRegistry
 
 
 class GlobalConfiguration(Protocol):

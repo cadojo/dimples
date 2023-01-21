@@ -8,7 +8,7 @@ manifest files (pyproject.lock).
 """
 
 import typing, dataclasses
-from ...packages import Package
+from ...packages.concrete import Package
 from ...projects import ProjectType
 from .protocols import ProjectDict, ToolDict, MetadataDict
 

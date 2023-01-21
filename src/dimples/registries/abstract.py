@@ -20,7 +20,7 @@ class PythonRegistry(Protocol):
         Return the alias of the registry.
         """
 
-    def __url__(self) -> str:
+    def __index__(self) -> str:
         """
         Return the URL of the registry.
         """
@@ -28,16 +28,6 @@ class PythonRegistry(Protocol):
     def __private__(self) -> bool:
         """
         Returns False if the registry is publicly accessible.
-        """
-
-    def __uuid__(self) -> Optional[str]:
-        """
-        Return the UUID associated with the registry, if one exists. Otherwise, return None.
-        """
-
-    def __update__(self) -> None:
-        """
-        Fetch the latest package metadata changes from the registry.
         """
 
 

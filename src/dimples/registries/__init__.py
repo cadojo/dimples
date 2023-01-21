@@ -1,50 +1,27 @@
 """
-Definitions and methods for registries.
+Interfaces and implementations for Python package registries.
 """
 
-import dataclasses, typing
+from . import abstract, concrete
 
 
-@dataclasses.dataclass
-class Registry:
+def alias(registry: abstract.PythonRegistry, /):
     """
-    An implementation for a Python package registry.
+    Return the alias of the provided registry.
     """
-
-    url: str = dataclasses.field()
-    alias: str = dataclasses.field()
-    private: bool = dataclasses.field(default=False)
-    uuid: typing.Optional[str] = dataclasses.field(default=None)
-
-    def __alias__(self) -> str:
-        """
-        Return the alias of the registry.
-        """
-        return self.alias
-
-    def __url__(self) -> str:
-        """
-        Return the URL of the registry.
-        """
-        return self.url
-
-    def __private__(self) -> bool:
-        """
-        Returns False if the registry is publicly accessible.
-        """
-        return self.private
-
-    def __uuid__(self) -> typing.Optional[str]:
-        """
-        Return the UUID associated with the registry, if one exists. Otherwise, return None.
-        """
-        return self.uuid
-
-    def __update__(self) -> None:
-        """
-        Fetch the latest package metadata changes from the registry.
-        """
-        raise NotImplementedError()
+    return registry.__alias__()
 
 
-del dataclasses, typing
+def index(registry: abstract.PythonRegistry, /):
+    """
+    Return the index URL of the provided registry.
+    """
+    return registry.__index__()
+
+
+def private(registry: abstract.PythonRegistry, /):
+    """
+    Returns True if the index URL is not publicly accessible, or if the index is otherwise
+    not intended for public use.
+    """
+    return registry.__private__()

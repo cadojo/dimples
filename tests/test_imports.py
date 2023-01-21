@@ -10,9 +10,9 @@ def test_import():
     import dimples.servers.protocols
     import dimples.servers.pypi.simple
 
-    import dimples.registries.protocols
+    import dimples.registries.abstract
 
-    import dimples.packages.protocols
+    import dimples.packages.abstract
 
     import dimples.environments.protocols
     import dimples.environments.validate

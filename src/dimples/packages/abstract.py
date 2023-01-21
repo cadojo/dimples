@@ -2,12 +2,14 @@
 Abstract interfaces for all Python packages.
 """
 
+from __future__ import annotations as __annotations__
+
 __export__ = {
     "PythonPackage",
 }
 
-from typing import Protocol, Optional
-from ..registries.protocols import PythonRegistry
+from typing import Protocol, Set
+from ..registries.abstract import PythonRegistry
 
 
 class PythonPackage(Protocol):
@@ -15,14 +17,14 @@ class PythonPackage(Protocol):
     An abstract interface for any type which describes a Python package!
     """
 
-    def __package__(self) -> str:
+    def __name__(self) -> str:
         """
         Return the install-able name of the package.
         """
 
-    def __uuid__(self) -> Optional[str]:
+    def __version__(self) -> str:
         """
-        Returns the UUID of the package, if one exists.
+        Return the version to install, or the version that is installed!
         """
 
     def __registry__(self) -> PythonRegistry:
@@ -30,9 +32,10 @@ class PythonPackage(Protocol):
         Returns the URL associated with the registry from which the package was installed.
         """
 
-    def __version__(self) -> str:
+    def __dependencies__(self) -> Set[PythonPackage]:
         """
-        Returns the version specifier for this package.
+        Return the set of all PythonPackage dependencies. Note this set is NOT flat! Each
+        dependency may have its own set of dependencies, and so on.
         """
 
 

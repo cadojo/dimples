@@ -4,8 +4,8 @@ Interfaces and implementations for environment manifests.
 
 
 import dataclasses, typing
-from ...packages import Package
-from ...packages.protocols import PythonPackage
+from ...packages.concrete import Package
+from ...packages.abstract import PythonPackage
 
 
 @dataclasses.dataclass

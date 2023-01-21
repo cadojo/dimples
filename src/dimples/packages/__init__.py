@@ -1,84 +1,48 @@
 """
-Interact with Python packages, and make sure to store where they came from!
+Interfaces and implementations for Python package types.
 """
 
-import dataclasses, typing
-from ..registries.protocols import PythonRegistry
+from . import abstract, concrete
 
 
-class RegistryField(typing.TypedDict):
+def name(package: abstract.PythonPackage, /):
     """
-    A type alias which provides types for each individual registry field.
+    Return the install-able name of the provided package.
     """
-
-    alias: str
-    url: str
-    uuid: str
+    return package.__name__()
 
 
-class MetadataDict(typing.TypedDict):
+def version(package: abstract.PythonPackage, /):
     """
-    A type alias which provides types for each individual metadata value.
+    Return the installed version of the provided package. This is a simple wrapper around
+    the importlib.metadata.version function!
     """
-
-    name: str
-    version: str
-    registry: RegistryField
-    uuid: typing.Optional[str]
+    return package.__version__()
 
 
-@dataclasses.dataclass(frozen=True)
-class Package:
+def installed(package: abstract.PythonPackage, /):
     """
-    A representation for a Python package.
+    Returns True if the package is installed, and False otherwise.
     """
+    from importlib.metadata import PackageNotFoundError
 
-    name: str = dataclasses.field()
-    version: str = dataclasses.field()
-    registry: PythonRegistry = dataclasses.field()
-    uuid: typing.Optional[str] = dataclasses.field()
+    try:
+        version(package)
+    except PackageNotFoundError:
+        return False
 
-    def __package__(self):
-        """
-        Return the package name.
-        """
-        return self.name
-
-    def __version__(self):
-        """
-        Return the package version.
-        """
-        return self.version
-
-    def __registry__(self):
-        """
-        Return the registry from which this package should be installed.
-        """
-        return self.registry
-
-    def __uuid__(self):
-        """
-        Return the UUID, if one exists, for this package.
-        """
-        return self.uuid
-
-    @classmethod
-    def from_dict(cls, dependency: MetadataDict):
-        """
-        Construct a Package from a dictionary.
-        """
-        from ..configuration import registry
-        from typing import Optional
-
-        name: str = dependency["name"]
-        version: str = dependency["version"]
-        uuid = dependency["uuid"]
-        if uuid == "":
-            uuid = None
-
-        reg = registry(**dependency.get("registry", {}))
-
-        return cls(name=name, version=version, registry=reg, uuid=uuid)
+    return True
 
 
-del dataclasses, typing, PythonRegistry
+def registry(package: abstract.PythonPackage, /):
+    """
+    Return the registry from which the provided package was installed.
+    """
+    return package.__registry__()
+
+
+def dependencies(package: abstract.PythonPackage, /):
+    """
+    Return each explicitly defined dependency.
+    """
+    return package.__dependencies__()

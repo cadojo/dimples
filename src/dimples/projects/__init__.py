@@ -20,20 +20,26 @@ class ProjectType(Enum):
         Given a string, return the appropriate project type.
         """
         return {
-            "package": cls.Package,
-            "application": cls.Application,
-            "environment": cls.Environment,
-        }[label.lower()]
+            "Package": cls.Package,
+            "Application": cls.Application,
+            "Environment": cls.Environment,
+        }[label.capitalize()]
 
-    def to_str(self):
+    def __str__(self):
         """
         Return a string representation of the object.
         """
         return {
-            self.Package: "Package",
-            self.Application: "Application",
-            self.Environment: "Environment",
+            self.Package.value: "Package",
+            self.Application.value: "Application",
+            self.Environment.value: "Environment",
         }[self.value]
+
+    def __repr__(self):
+        """
+        Return a string representation of the enumerated type.
+        """
+        return f"ProjectType: {self}"
 
 
 del Enum, auto
