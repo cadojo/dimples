@@ -106,7 +106,7 @@ def distribution(
     Returns a `pypi_simple.DistributionPackage` instance for the specified package, and
     optionally a specific version. If no version is specified, the latest version is used.
     """
-    from packaging.version import parse, Version
+    from packaging.version import parse
 
     data = metadata(package, url=url, auth=auth)
 

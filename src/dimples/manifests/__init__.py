@@ -3,7 +3,8 @@ Interfaces and implementations for environment manifests.
 """
 
 
-import dataclasses, typing
+import typing
+import dataclasses
 from ..packages import Package
 from ..protocols.packages import PythonPackage
 
@@ -22,7 +23,7 @@ class Manifest:
         """
         Load the provided metadata file.
         """
-        from ..toml import load
+        from tomli import load
 
         with open(file, "rb") as stream:
             self.data = load(stream)

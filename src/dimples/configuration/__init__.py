@@ -2,7 +2,8 @@
 Global configuration options, and interfaces for parsing them.
 """
 
-import dataclasses, typing
+import typing
+import dataclasses
 from ..protocols.registries import PythonRegistry
 
 
@@ -11,7 +12,7 @@ def registries() -> typing.Set[PythonRegistry]:
     Parse the global registries file and return all configured registries.
     """
     from .constants import GLOBAL_CONFIG, REGISTRY_FILE
-    from ..toml import load
+    from tomli import load
     from ..registries import Registry
     from pathlib import Path
 

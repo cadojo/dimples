@@ -36,10 +36,12 @@ classifiers = [
 ]
 
 dependencies = [
-  "rich", "typer", 
-  "pypi_simple", 
-  "tomli; python_version<'3.11'",
+  "rich", 
+  "typer", 
   "pypi_json",
+  "pypi_simple", 
+  "tomli",
+  "tomli_w",
   "module-hygiene>=0.3.3",
   "block-scopes>=0.2.2",
 ]
@@ -79,11 +81,13 @@ warn_return_any = true
 warn_unused_configs = true
 check_untyped_defs = true
 
+[tool.ruff]
+line-length = 120
+
 [tool.dimples.project]
 type = "package"
 strict = false
 
 [tool.dimples.project.registries]
 rich = "https://pypi.org/simple/"
-
 

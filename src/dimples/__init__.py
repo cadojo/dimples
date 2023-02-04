@@ -24,7 +24,6 @@ Hey, that's only two things!
 
 from importlib.metadata import PackageNotFoundError, version
 
-from .configuration import constants
 
 try:
     __version__ = version("dimples")
@@ -33,15 +32,3 @@ except PackageNotFoundError:
 
 del version, PackageNotFoundError
 
-from . import (
-    toml,
-    configuration,
-    environments,
-    managers,
-    packages,
-    projects,
-    registries,
-    servers,
-    metadata,
-    manifests,
-)

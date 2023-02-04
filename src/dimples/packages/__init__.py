@@ -2,22 +2,21 @@
 Interfaces and implementations for Python package types.
 """
 
-from __future__ import annotations as __annotations
-
+from typing import Set
+from dataclasses import dataclass, field
 from ..protocols.packages import PythonPackage
-import dataclasses, typing
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclass(kw_only=True)
 class Package:
     """
     A representation for a Python package.
     """
 
-    name: str = dataclasses.field(kw_only=False)
-    version: str = dataclasses.field(default="")
-    dependencies: typing.Set[Package] = dataclasses.field(default_factory=set)
-    registry: str = dataclasses.field(default="pypi")
+    name: str = field(kw_only=False)
+    version: str = field(default="")
+    dependencies: Set["Package"] = field(default_factory=set)
+    registry: str = field(default="pypi")
 
     def __name__(self):
         """
@@ -87,4 +86,4 @@ def dependencies(package: PythonPackage, /):
     return package.__dependencies__()
 
 
-del dataclasses, typing, PythonPackage
+del dataclass, field, Set, PythonPackage

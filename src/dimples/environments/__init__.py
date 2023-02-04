@@ -23,14 +23,23 @@ class Environment:
     manifest: Manifest = dataclasses.field()
 
     def __init__(self, path: str, /):
+        from pathlib import Path
         from os.path import join
+        from tomli import load
         from ..configuration.constants import METADATA_FILE, MANIFEST_FILE
         from ..metadata import Metadata
         from ..manifests import Manifest
 
-        self.path = path
-        self.metadata = Metadata(join(path, METADATA_FILE))
-        self.manifest = Manifest(join(path, MANIFEST_FILE))
+        self.path = str(Path(path).expanduser().resolve())
+
+        METADATA_PATH = join(self.path, METADATA_FILE)
+        MANIFEST_PATH = join(self.path, MANIFEST_FILE)
+
+        with open(METADATA_PATH, "rb") as metadata:
+            self.metadata = Metadata(METADATA_PATH, load(metadata))
+
+        with open(MANIFEST_PATH, "rb"):  # as manifest:
+            self.manifest = Manifest(MANIFEST_PATH)  # , load(manifest))
 
     def __environment__(self) -> str:
         """

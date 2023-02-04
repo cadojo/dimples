@@ -13,18 +13,7 @@ class ProjectType(Enum):
 
     Package = "Package"
     Application = "Application"
-    Environment = "Environment"
-
-    @classmethod
-    def from_str(cls, label: str, /) -> ProjectType:
-        """
-        Given a string, return the appropriate project type.
-        """
-        return {
-            "Package": cls.Package,
-            "Application": cls.Application,
-            "Environment": cls.Environment,
-        }[label.capitalize()]
+    Workspace = "Workspace"
 
     def __str__(self):
         """
@@ -36,7 +25,7 @@ class ProjectType(Enum):
         """
         Return a string representation of the enumerated type.
         """
-        return f"ProjectType: {self}"
+        return f"ProjectType: {str(self)}"
 
 
 del Enum, auto

@@ -2,7 +2,11 @@
 Package server implementations for the PyPI interface.
 """
 
-import typing, pypi_simple, dataclasses, sys, os
+import os
+import sys
+import typing
+import dataclasses
+import pypi_simple
 
 
 @dataclasses.dataclass
