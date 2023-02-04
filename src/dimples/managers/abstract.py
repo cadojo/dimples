@@ -10,7 +10,7 @@ __export__ = {
 from packaging.version import Version
 from typing import Protocol, Optional, Mapping
 from ..packages.abstract import PythonPackage
-from ..environments.protocols import PythonEnvironment
+from ..environments.abstract import PythonEnvironment
 
 
 class PackageManager(Protocol):

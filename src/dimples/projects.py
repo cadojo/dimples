@@ -2,6 +2,7 @@
 Types relating to Python projects.
 """
 
+from __future__ import annotations as __annotations
 from enum import Enum, auto
 
 
@@ -15,7 +16,7 @@ class ProjectType(Enum):
     Environment = auto()
 
     @classmethod
-    def from_str(cls, label: str, /):
+    def from_str(cls, label: str, /) -> ProjectType:
         """
         Given a string, return the appropriate project type.
         """

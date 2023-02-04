@@ -10,7 +10,7 @@ def registries() -> typing.Set[PythonRegistry]:
     """
     Parse the global registries file and return all configured registries.
     """
-    from .. import GLOBAL_CONFIG, REGISTRY_FILE
+    from ..constants import GLOBAL_CONFIG, REGISTRY_FILE
     from ..toml import load
     from ..registries.concrete import Registry
     from pathlib import Path

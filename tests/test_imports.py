@@ -14,11 +14,11 @@ def test_import():
 
     import dimples.packages.abstract
 
-    import dimples.environments.protocols
+    import dimples.environments.abstract
     import dimples.environments.validate
     import dimples.environments.sites
 
-    import dimples.environments.metadata.protocols
-    import dimples.environments.manifests.protocols
+    import dimples.environments.metadata.abstract
+    import dimples.environments.manifests.abstract
 
-    import dimples.managers.protocols
+    import dimples.managers.abstract
