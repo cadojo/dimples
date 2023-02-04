@@ -60,8 +60,8 @@ class Manifest:
         from ...packages.concrete import Package
 
         return {
-            Package.from_dict(dependency): {
-                Package.from_dict(subdependency) for subdependency in dependency["by"]
+            Package(**dependency): {
+                Package(**subdependency) for subdependency in dependency["by"]
             }
             for dependency in self.data.get("dependencies", set())
         }
@@ -73,12 +73,11 @@ class Manifest:
         Resolve the environment into a replicable build.
         """
         from typing import cast
-        from ..metadata.protocols import MetadataDict
+        from ..metadata.abstract import MetadataDict
 
         return {
-            Package.from_dict(dependency): {
-                Package.from_dict(cast(MetadataDict, by))
-                for by in dependency.get("by", set())
+            Package(**dependency): {
+                Package(**cast(MetadataDict, by)) for by in dependency.get("by", set())
             }
             for dependency in self.data["dependencies"]
         }

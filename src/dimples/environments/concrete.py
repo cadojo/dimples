@@ -3,8 +3,8 @@ Interact with Python environments.
 """
 
 import dataclasses, typing
-from .manifests.protocols import ProjectManifest
-from .metadata.protocols import ProjectMetadata
+from .manifests.abstract import ProjectManifest
+from .metadata.abstract import ProjectMetadata
 from ..registries.abstract import PythonRegistry
 
 from .metadata import Metadata

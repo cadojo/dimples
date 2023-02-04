@@ -10,7 +10,6 @@ manifest files (pyproject.lock).
 import typing, dataclasses
 from ...packages.concrete import Package
 from ...projects import ProjectType
-from .protocols import ProjectDict, ToolDict, MetadataDict
 
 
 @dataclasses.dataclass
@@ -21,7 +20,7 @@ class Metadata:
     """
 
     @classmethod
-    def isvalid(cls, data: MetadataDict) -> bool:
+    def isvalid(cls, data) -> bool:
         """
         Returns True if the underlying data matches the file type's specification.
         """
@@ -101,7 +100,7 @@ class Metadata:
         """
         from typing import cast
         from ...projects import ProjectType
-        from .protocols import ToolDimplesProjectDict
+        from .abstract import ToolDimplesProjectDict
 
         data = cast(ToolDimplesProjectDict, self.data["tool"]["dimples"]["project"])
         return ProjectType.from_str(cast(str, data["type"]))
