@@ -1,22 +1,51 @@
 """
-A REST api for interacting with PyPi servers.
+Wrappers around the pypi-simple package for interacting with PyPI's Simple API.
 """
 
 __export__ = {
+    "index",
     "metadata",
     "versions",
     "distribution",
     "download",
-    "PyPIServer",
 }
 
-from typing import Optional, NamedTuple, Tuple, Union
-from pypi_simple import PYPI_SIMPLE_ENDPOINT, DistributionPackage, ProjectPage
-from functools import cache
 from os.path import curdir
+from typing import Optional, Tuple, Union
+from pypi_simple import (
+    PYPI_SIMPLE_ENDPOINT,
+    DistributionPackage,
+    ProjectPage,
+    IndexPage,
+)
 
 
-@cache
+def index(
+    url: str = PYPI_SIMPLE_ENDPOINT,
+    /,
+    *,
+    auth: Optional[Tuple[str, str]] = None,
+    trusted: Union[str, bool, None] = None,
+    certificate: Optional[str] = None,
+) -> IndexPage:
+    from requests import Session
+    from pypi_simple import PyPISimple
+
+    if trusted or certificate:
+        session = Session()
+        session.cert = certificate
+        session.verify = trusted
+        session.auth = auth
+
+        with PyPISimple(endpoint=url, session=session) as client:
+            data = client.get_index_page()
+    else:
+        with PyPISimple(endpoint=url, auth=auth) as client:
+            data = client.get_index_page()
+
+    return data
+
+
 def metadata(
     package: str,
     /,
@@ -47,7 +76,6 @@ def metadata(
     return data
 
 
-@cache
 def versions(
     package: str,
     /,
@@ -66,7 +94,6 @@ def versions(
     }
 
 
-@cache
 def distribution(
     package: str,
     /,
@@ -78,11 +105,8 @@ def distribution(
     """
     Returns a `pypi_simple.DistributionPackage` instance for the specified package, and
     optionally a specific version. If no version is specified, the latest version is used.
-
-    The `to` keyword argument specifies the download location, and defaults to the current
-    directory. The `version` keyword argument specifiest the desired package version.
     """
-    from packaging.version import parse, Version
+    from packaging.version import parse
 
     data = metadata(package, url=url, auth=auth)
 
@@ -114,7 +138,11 @@ def download(
     version: Optional[str] = None,
 ) -> None:
     """
-    Download the specified package.
+    Download the requested package, and optionally requested version.
+
+    The `to` keyword argument specifies the download location, and defaults to the current
+    directory. The `version` keyword argument specifies the desired package version. If no
+    version is specified, the highest version number is used.
     """
     from pathlib import Path
     from requests import get
@@ -126,49 +154,6 @@ def download(
 
     with open(_location, "wb") as file:
         file.write(response.content)
-
-
-class PyPIServer(NamedTuple):
-    """
-    An implementation for all (simple API) PyPI package servers.
-    """
-
-    url: str = PYPI_SIMPLE_ENDPOINT
-    authorization: Optional[Tuple[str, str]] = None
-    trusted: Optional[str] = None
-
-    def __distribution__(
-        self, package: str, /, *, version: Optional[str] = None
-    ) -> str:
-        """
-        Returns the URL associated with the requested package distribution.
-        """
-        dist = distribution(
-            package, version=version, url=self.url, auth=self.authorization
-        )
-        return dist.url
-
-    def __versions__(self, package: str) -> set[str]:
-        """
-        Return the set of all versions for the provided package.
-        """
-        return versions(package, url=self.url, auth=self.authorization)
-
-    def __download__(
-        self, package: str, /, *, location: str, version: Optional[str]
-    ) -> None:
-        """
-        Download the distribution for the specified package, and optionally specified
-        version, to some location. If no version is provided, the largest version number
-        found on the server should be used.
-        """
-        return download(
-            package,
-            version=version,
-            location=location,
-            url=self.url,
-            auth=self.authorization,
-        )
 
 
 if __name__ == "__main__":

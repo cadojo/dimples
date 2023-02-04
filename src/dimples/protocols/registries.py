@@ -1,6 +1,7 @@
 """
-Definitions and methods for registries.
+Abstract interfaces for Python package registries.
 """
+
 
 __export__ = {
     "PythonRegistry",
@@ -19,23 +20,18 @@ class PythonRegistry(Protocol):
         Return the alias of the registry.
         """
 
-    def __registry__(self) -> str:
+    def __index__(self) -> str:
         """
         Return the URL of the registry.
         """
 
-    def __public__(self) -> bool:
+    def __private__(self) -> bool:
         """
-        Returns True if the registry is publicly accessible.
-        """
-
-    def __update__(self) -> None:
-        """
-        Fetch the latest package metadata changes from the registry.
+        Returns False if the registry is publicly accessible.
         """
 
 
 if __name__ != "__main__":
-    import hygiene  # type: ignore
+    import hygiene
 
     hygiene.cleanup()
