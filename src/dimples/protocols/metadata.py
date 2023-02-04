@@ -8,7 +8,7 @@ __export__ = {
 }
 
 from packaging.requirements import Requirement
-from typing import Protocol, Optional, Set, Dict, TypedDict, Dict, Type
+from typing import Protocol, Optional, Set, Dict
 from ..projects import ProjectType
 
 MetadataContents = Dict

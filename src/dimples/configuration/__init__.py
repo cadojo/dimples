@@ -3,7 +3,7 @@ Global configuration options, and interfaces for parsing them.
 """
 
 import dataclasses, typing
-from ..registries.abstract import PythonRegistry
+from ..protocols.registries import PythonRegistry
 
 
 def registries() -> typing.Set[PythonRegistry]:
@@ -12,7 +12,7 @@ def registries() -> typing.Set[PythonRegistry]:
     """
     from .constants import GLOBAL_CONFIG, REGISTRY_FILE
     from ..toml import load
-    from ..registries.concrete import Registry
+    from ..registries import Registry
     from pathlib import Path
 
     with open(str(Path(GLOBAL_CONFIG) / REGISTRY_FILE), "rb") as stream:

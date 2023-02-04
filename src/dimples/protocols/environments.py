@@ -7,7 +7,7 @@ __export__ = {
 }
 
 from typing import Protocol, Dict, Set
-from ..packages.abstract import PythonPackage
+from .packages import PythonPackage
 
 
 class PythonEnvironment(Protocol):

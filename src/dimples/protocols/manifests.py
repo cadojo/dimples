@@ -6,8 +6,7 @@ __export__ = {
     "ProjectManifest",
 }
 
-from typing import Protocol, Dict, Optional, Set
-from ..packages.abstract import PythonPackage
+from typing import Protocol, Optional
 
 
 class ProjectManifest(Protocol):

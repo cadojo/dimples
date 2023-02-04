@@ -7,7 +7,7 @@ __export__ = {
     "PythonRegistry",
 }
 
-from typing import Protocol, Optional
+from typing import Protocol
 
 
 class PythonRegistry(Protocol):

@@ -4,8 +4,8 @@ Interfaces and implementations for environment manifests.
 
 
 import dataclasses, typing
-from ..packages.concrete import Package
-from ..packages.abstract import PythonPackage
+from ..packages import Package
+from ..protocols.packages import PythonPackage
 
 
 @dataclasses.dataclass
@@ -58,7 +58,7 @@ class Manifest:
         Return the contents of the [dependencies] key, if it exists.
         Otherwise, return an empty set.
         """
-        from ..packages.concrete import Package
+        from ..packages import Package
 
         return {
             Package(**dependency): {
@@ -74,7 +74,7 @@ class Manifest:
         Resolve the environment into a replicable build.
         """
         from typing import cast
-        from ..metadata.abstract import MetadataContents
+        from ..metadata import MetadataContents
 
         return {
             Package(**dependency): {

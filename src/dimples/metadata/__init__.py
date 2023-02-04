@@ -4,9 +4,9 @@ manifest files (pyproject.lock).
 """
 
 import typing, dataclasses
-from ..packages.concrete import Package
+from ..packages import Package
 from ..projects import ProjectType
-from .abstract import MetadataContents
+from ..protocols.metadata import MetadataContents
 
 from typing import Optional, Set, Dict
 from packaging.requirements import Requirement
