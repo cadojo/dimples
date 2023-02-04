@@ -11,9 +11,9 @@ class ProjectType(Enum):
     An enumerated type which captures all project types.
     """
 
-    Package = auto()
-    Application = auto()
-    Environment = auto()
+    Package = "Package"
+    Application = "Application"
+    Environment = "Environment"
 
     @classmethod
     def from_str(cls, label: str, /) -> ProjectType:
@@ -30,11 +30,7 @@ class ProjectType(Enum):
         """
         Return a string representation of the object.
         """
-        return {
-            self.Package.value: "Package",
-            self.Application.value: "Application",
-            self.Environment.value: "Environment",
-        }[self.value]
+        return self.value
 
     def __repr__(self):
         """

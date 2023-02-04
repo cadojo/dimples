@@ -2,13 +2,17 @@
 Interact with Python environments.
 """
 
-import dataclasses, typing
-from .manifests.abstract import ProjectManifest
-from .metadata.abstract import ProjectMetadata
+__export__ = {
+    "Environment",
+}
+
+import dataclasses
+from ..manifests.abstract import ProjectManifest
+from ..metadata.abstract import ProjectMetadata
 from ..registries.abstract import PythonRegistry
 
-from .metadata import Metadata
-from .manifests import Manifest
+from ..metadata import Metadata
+from ..manifests import Manifest
 
 
 @dataclasses.dataclass
@@ -23,9 +27,9 @@ class Environment:
 
     def __init__(self, path: str, /):
         from os.path import join
-        from ..constants import METADATA_FILE, MANIFEST_FILE
-        from .metadata import Metadata
-        from .manifests import Manifest
+        from ..configuration.constants import METADATA_FILE, MANIFEST_FILE
+        from ..metadata import Metadata
+        from ..manifests import Manifest
 
         self.path = path
         self.metadata = Metadata(join(path, METADATA_FILE))
@@ -58,3 +62,9 @@ class Environment:
         Return the set of all installed Python packages (explicitly, or implicitly).
         """
         return self.manifest
+
+
+if __name__ == "__main__":
+    import hygiene
+
+    hygiene.cleanup()

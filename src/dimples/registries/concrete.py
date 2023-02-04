@@ -21,17 +21,17 @@ class Registry:
         """
         return self.alias
 
-    def __url__(self) -> str:
-        """
-        Return the URL of the registry.
-        """
-        return self.url
-
     def __private__(self) -> bool:
         """
         Returns False if the registry is publicly accessible.
         """
         return self.private
+
+    def __index__(self) -> str:
+        """
+        Return the index associated with the registry.
+        """
+        return self.url
 
 
 del dataclasses, typing

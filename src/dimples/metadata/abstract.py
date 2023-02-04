@@ -4,11 +4,14 @@ Abstract interfaces for environment metadata files.
 
 __export__ = {
     "ProjectMetadata",
+    "MetadataContents",
 }
 
 from packaging.requirements import Requirement
-from typing import Protocol, Optional, Set, Dict
-from ...projects import ProjectType
+from typing import Protocol, Optional, Set, Dict, TypedDict, Dict, Type
+from ..projects import ProjectType
+
+MetadataContents = Dict
 
 
 class ProjectMetadata(Protocol):

@@ -15,10 +15,9 @@ def test_import():
     import dimples.packages.abstract
 
     import dimples.environments.abstract
-    import dimples.environments.validate
     import dimples.environments.sites
 
-    import dimples.environments.metadata.abstract
-    import dimples.environments.manifests.abstract
+    import dimples.metadata.abstract
+    import dimples.manifests.abstract
 
     import dimples.managers.abstract
