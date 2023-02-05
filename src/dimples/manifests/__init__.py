@@ -34,6 +34,9 @@ class Manifest:
         """
         Validate the data loaded by the __init__ method.
         """
+        from pathlib import Path
+
+        self.file = str(Path(self.file).expanduser().absolute().resolve())
         if not self.validate():
             raise ValueError(f"The data provided by {self.file} is invalid!")
 

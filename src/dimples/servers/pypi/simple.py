@@ -125,7 +125,7 @@ def distribution(
         # The "if p.version" here is critical! It allows packages.sort to be type stable!
         packages = [p for p in data.packages if p.version]
         packages.sort(key=lambda p: parse(str(p.version)), reverse=True)
-        return packages[0]
+        return next(iter(packages))
 
 
 def download(
@@ -159,6 +159,6 @@ def download(
 if __name__ == "__main__":
     ...
 else:
-    import hygiene  # type: ignore
+    import hygiene
 
     hygiene.cleanup()

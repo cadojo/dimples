@@ -15,7 +15,6 @@ def user():
 def environment():
     """
     Returns the directory where packages are installed for the active environment.
-
     Beware! This does not work in an IPython session.
     """
     import sysconfig

@@ -2,8 +2,11 @@
 Types relating to Python projects.
 """
 
-from __future__ import annotations as __annotations
-from enum import Enum, auto
+__export__ = {
+    "ProjectType",
+}
+
+from enum import Enum
 
 
 class ProjectType(Enum):
@@ -28,4 +31,7 @@ class ProjectType(Enum):
         return f"ProjectType: {str(self)}"
 
 
-del Enum, auto
+if __name__ != "__main__":
+    import hygiene
+
+    hygiene.cleanup()
