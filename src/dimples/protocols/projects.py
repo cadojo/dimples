@@ -1,40 +1,22 @@
 """
-Abstract interfaces for all Python packages.
+Abstract interfaces for all Python projects: packages, and environments.
 """
 
 from __future__ import annotations as __annotations
 
 __export__ = {
-    "PythonPackage",
+    "PythonProject",
 }
 
 from typing import Protocol
-from packaging.version import Version
-from uuid import UUID
-
-from .manifests import ProjectManifest
+from .registries import PythonRegistry
 from .metadata import ProjectMetadata
+from .manifests import ProjectManifest
 
-
-class PythonPackage(Protocol):
+class PythonProject(Protocol):
     """
-    An abstract interface for any type which describes a Python package!
+    An abstract interface for any type which describes a Python project!
     """
-
-    def __name__(self) -> str:
-        """
-        Return the install-able name of the package.
-        """
-
-    def __version__(self) -> Version:
-        """
-        Return the version to install, or the version that is installed!
-        """
-
-    def __uuid__(self) -> UUID:
-        """
-        Returns the URL associated with the registry from which the package was installed.
-        """
 
     def __update__(self, *packages: str, cautious: bool = False, **kwargs) -> None:
         """

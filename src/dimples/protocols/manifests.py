@@ -19,7 +19,6 @@ class ProjectManifest(Protocol):
         Return the manifest file, if one exists. Otherwise, return None.
         """
 
-
 if __name__ != "__main__":
     import hygiene
 
