@@ -57,3 +57,4 @@ MANIFEST
 .mypy_cache
 .pytest_cache
 *.json
+venv

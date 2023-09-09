@@ -6,8 +6,7 @@ build-backend = "hatchling.build"
 name = "dimples"
 description = "Distribute and manage your packages!"
 readme = "README.md"
-requires-python = ">=3.7"
-license = "MIT"
+requires-python = ">=3.8"
 version = "0.1.0.dev0"
 
 keywords = [
@@ -18,11 +17,11 @@ keywords = [
 ]
 
 authors = [
-  { name = "Joe(y) Carpinelli", email = "jdcarpinelli@gmail.com" },
+  { name = "Joey Carpinelli", email = "joey@loopy.codes" },
 ]
 
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 2 - Pre-Alpha",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
@@ -40,11 +39,14 @@ dependencies = [
   "typer", 
   "pypi_json",
   "pypi_simple", 
-  "tomli",
+  "tomli; python_version<'3.11'",
   "tomli_w",
   "module-hygiene>=0.3.3",
   "block-scopes>=0.2.2",
 ]
+
+[project.license]
+file = "LICENSE"
 
 [project.urls]
 Documentation = "https://github.com/cadojo/dimples#readme"
