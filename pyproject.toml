@@ -43,7 +43,6 @@ dependencies = [
   "tomli; python_version<'3.11'",
   "tomli_w",
   "module-hygiene>=0.3.3",
-  "block-scopes>=0.2.2",
 ]
 
 [project.license]
