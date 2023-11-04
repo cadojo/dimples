@@ -1,0 +1,13 @@
+---
+title: UUID Implementations for Standard Python Projects
+
+authors:
+  - name: Joseph D Carpinelli
+    email: joey@carpinelli.email
+
+bibliography: references.bib
+---
+
+## Section
+
+This is a simple placeholder for the manuscript's main document [@knuth84].
