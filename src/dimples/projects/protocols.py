@@ -2,6 +2,10 @@
 Interfaces for Python projects, without any implementations.
 """
 
+__export__ = {
+    "PythonProject",
+}
+
 import typing
 import uuid
 
@@ -17,13 +21,7 @@ class PythonProject(typing.Protocol):
         """
         ...
 
-
-class PythonPackage(PythonProject, typing.Protocol):
-    """
-    A standard interface for all Python packages.
-    """
-
-    def __name__(self) -> str:
+    def __name__(self) -> typing.Optional[str]:
         """
         Return the name of the package.
         """
@@ -36,11 +34,7 @@ class PythonPackage(PythonProject, typing.Protocol):
         ...
 
 
-class PythonWorkspace(PythonProject, typing.Protocol):
-    """
-    A standard interface for all Python workspaces; environments that are not tied
-    to one particular installable Python package.
-    """
+if __name__ != "__main__":
+    import hygiene
 
-
-del typing, uuid
+    hygiene.cleanup()
