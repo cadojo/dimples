@@ -7,12 +7,15 @@ from __future__ import annotations
 
 import enum
 import typing
-import pyproject_metadata
 
 METADATA_FILE: typing.Literal["pyproject.toml"] = "pyproject.toml"
 MANIFEST_FILE: typing.Literal["pyproject.lock"] = "pyproject.lock"
 
 from dimples.projects import protocols
+
+
+class Project:
+    ...
 
 
 def path(project: protocols.PythonProject, /) -> str:
@@ -54,4 +57,4 @@ def manifest_file(project: protocols.PythonProject, /) -> str:
     )
 
 
-del annotations, enum, typing, pyproject_metadata
+del annotations, enum, typing
