@@ -41,7 +41,7 @@ def project(filepath: str | pathlib.Path, /) -> ProjectDict:
     return cast(ProjectDict, content["project"])
 
 
-def tool(filepath: str | pathlib.Path, /) -> DimplesDict:
+def tool(filepath: str | pathlib.Path, /) -> typing.Optional[DimplesDict]:
     """
     Return the contents of the [tool.dimples] key in the provided pyproject.toml file.
     """
@@ -56,7 +56,7 @@ def tool(filepath: str | pathlib.Path, /) -> DimplesDict:
     try:
         return cast(DimplesDict, content["tool"]["dimples"])
     except KeyError:
-        return {"uuid": None}
+        return None
 
 
 if __name__ != "__main__":

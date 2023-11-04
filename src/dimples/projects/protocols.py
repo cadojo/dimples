@@ -21,7 +21,8 @@ class DimplesDict(typing.TypedDict):
     Types for the pyproject.toml [tool.dimples] key.
     """
 
-    uuid: typing.Optional[str]
+    uuid: typing.NotRequired[str]
+    dependencies: typing.NotRequired[typing.Dict[str, str]]
 
 
 class PythonProject(typing.Protocol):
