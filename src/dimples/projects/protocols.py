@@ -4,10 +4,24 @@ Interfaces for Python projects, without any implementations.
 
 __export__ = {
     "PythonProject",
+    "DimplesDict",
+    "ProjectDict",
 }
 
 import typing
 import uuid
+
+import pyproject_parser
+
+ProjectDict = pyproject_parser.ProjectDict  # type: ignore
+
+
+class DimplesDict(typing.TypedDict):
+    """
+    Types for the pyproject.toml [tool.dimples] key.
+    """
+
+    uuid: typing.Optional[str]
 
 
 class PythonProject(typing.Protocol):
