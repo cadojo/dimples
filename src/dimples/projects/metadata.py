@@ -4,80 +4,65 @@ Types for interacting with `pyproject.toml` files.
 
 from __future__ import annotations
 
+
 __export__ = {
-    "ReadmeTable",
-    "LicenseTable",
-    "AuthorTable",
-    "ProjectDict",
-    "Table",
-    "MetadataDict",
+    "DimplesDict",
+    "content",
+    "project",
+    "dimples",
 }
 
-from typing_extensions import TypedDict, NotRequired
-from typing import List, Union, Dict, Type
+import pyproject_parser
+import pathlib
+from typing import TypedDict, Optional
 
 
-class ReadmeTable(TypedDict):
+class DimplesDict(TypedDict):
     """
-    A typed dictionary for static type-checking the `[project.readme]` field of `pyproject.toml`.
-    """
-
-    file: str
-    content_type: str
-
-
-class LicenseTable(TypedDict):
-    """
-    A typed dictionary for static type-checking the `[project.license]` field of `pyproject.toml`.
+    Types for the pyproject.toml [tool.dimples] key.
     """
 
-    file: NotRequired[str]
-    text: NotRequired[str]
+    uuid: Optional[str]
 
 
-class AuthorTable(TypedDict):
+def content(filepath: str | pathlib.Path, /) -> pyproject_parser.PyProject:
     """
-    A typed dictionary for static type-checking the `[project.authors]` and [project.maintainers] fields of `pyproject.toml`.
+    Return the full contents of the provided pyproject.toml file.
     """
+    from pyproject_parser import PyProject
+    from pathlib import Path
 
-    name: NotRequired[str]
-    email: NotRequired[str]
+    return PyProject.load(str(Path(filepath).resolve()))
 
 
-class ProjectTable(TypedDict):
+def project(filepath: str | pathlib.Path, /) -> pyproject_parser.ProjectDict:
     """
-    A typed dictionary for static type-checking the `[project]` fields of `pyproject.toml`.
+    Return the contents of the [project] key in the provided pyproject.toml file.
     """
+    from dimples.toml import load
+    from pathlib import Path
+    from typing import cast
+    from pyproject_parser import ProjectDict
 
-    authors: NotRequired[List[AuthorTable]]
-    classifiers: NotRequired[List[str]]
-    dependencies: NotRequired[List[str]]
-    description: NotRequired[str]
-    dynamic: NotRequired[List[str]]
-    entry_points: NotRequired[Dict[str, str]]
-    gui_scripts: NotRequired[Dict[str, str]]
-    keywords: NotRequired[List[str]]
-    license: NotRequired[LicenseTable]
-    maintainers: NotRequired[List[AuthorTable]]
-    name: str
-    optional_dependencies: NotRequired[Dict[str, List[str]]]
-    readme: NotRequired[Union[str, ReadmeTable]]
-    requires_python: NotRequired[str]
-    scripts: NotRequired[Dict[str, str]]
-    urls: NotRequired[Dict[str, str]]
-    version: NotRequired[str]
+    with open(str(Path(filepath).resolve()), "rb") as io:
+        content = load(io)
+
+    return cast(ProjectDict, content["project"])
 
 
-Table = Union[str, int, List, Dict[str, Union[str, int, Dict]]]
-
-
-class MetadataDict(TypedDict):
+def dimples(filepath: str | pathlib.Path, /) -> DimplesDict:
     """
-    A typed dictionary for static type-checking `pyproject.toml` file parsers.
+    Return the contents of the [tool.dimples] key in the provided pyproject.toml file.
     """
+    from dimples.toml import load
+    from pathlib import Path
+    from typing import cast
+    from pyproject_parser import ProjectDict
 
-    project: ProjectTable
-    tool: NotRequired[Table]
+    with open(str(Path(filepath).resolve()), "rb") as io:
+        content = load(io)
+
+    return content["tool"].get("dimples", {"uuid": None})
 
 
 if __name__ != "__main__":

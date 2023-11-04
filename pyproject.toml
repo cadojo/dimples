@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dimples"
-description = "Distribute and manage your packages!"
+description = "Distribute and manage your packages with dimples!"
 readme = "README.md"
 requires-python = ">=3.8"
 version = "0.1.0.dev0"
