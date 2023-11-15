@@ -14,10 +14,6 @@ MANIFEST_FILE: typing.Literal["pyproject.lock"] = "pyproject.lock"
 from dimples.projects import protocols
 
 
-class Project:
-    ...
-
-
 def path(project: protocols.PythonProject, /) -> str:
     """
     Return the full, resolved path to the project directory or folder.

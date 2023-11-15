@@ -3,17 +3,45 @@ Interfaces for Python projects, without any implementations.
 """
 
 __export__ = {
-    "PythonProject",
     "DimplesDict",
     "ProjectDict",
 }
 
+
 import typing
 import uuid
-
 import pyproject_parser
 
+
 ProjectDict = pyproject_parser.ProjectDict  # type: ignore
+
+
+class ManifestConfigurationDict(typing.TypedDict):
+    """
+    Types for the pyproject.lock [configuration] key.
+    """
+
+    python_version: str
+    manifest_version: str
+    project_hash: str
+
+
+class ManifestDependencyDict(typing.TypedDict):
+    """
+    Types for values of the pyproject.lock [dependencies] key.
+    """
+
+    version: str
+    uuid: typing.NotRequired[str]
+
+
+class ManifestDict(typing.TypedDict):
+    """
+    Types for the pyproject.lock file.
+    """
+
+    configuration: ManifestConfigurationDict
+    dependencies: typing.Dict[str, ManifestDependencyDict]
 
 
 class DimplesDict(typing.TypedDict):
@@ -23,30 +51,6 @@ class DimplesDict(typing.TypedDict):
 
     uuid: typing.NotRequired[str]
     dependencies: typing.NotRequired[typing.Dict[str, str]]
-
-
-class PythonProject(typing.Protocol):
-    """
-    A standard interface for all Python project types: packages, and workspaces.
-    """
-
-    def __path__(self) -> str:
-        """
-        The path to the Python project directory or folder.
-        """
-        ...
-
-    def __name__(self) -> typing.Optional[str]:
-        """
-        Return the name of the package.
-        """
-        ...
-
-    def __uuid__(self) -> typing.Optional[uuid.UUID]:
-        """
-        Return a unique identifier that is tied to the package, if one is known.
-        """
-        ...
 
 
 if __name__ != "__main__":
